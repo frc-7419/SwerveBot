@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.Drivebase;
 
+import edu.wpi.first.wpilibj.XboxController;
+
 /*
  * How will Swerve Work? JY: 2023
  * Joysticks need to output a x/y speed and a rotation theta speed
@@ -14,6 +16,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RunSwerveWithJoystick extends CommandBase {
   /** Creates a new RunSwerveWithJoystick. */
+  XboxController joystick;
+  DrivebaseSubsystem drivebaseSubsystem;
+  
   public RunSwerveWithJoystick() {
     // Use addRequirements() here to declare subsystem dependencies.
   }

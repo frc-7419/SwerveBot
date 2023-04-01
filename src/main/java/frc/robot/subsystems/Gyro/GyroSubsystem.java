@@ -3,15 +3,35 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems.Gyro;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class GyroSubsystem extends SubsystemBase {
   /** Creates a new DriveBaseSubsystem. */
-  public GyroSubsystem() {}
+  private AHRS navX;
+
+  public GyroSubsystem() {
+    navX = new AHRS(SPI.Port.kMXP);
+    navX.reset(); //reset for field-centric drive
+  }
+
+  public Rotation2d getRotation2d(double radians) {
+    return new Rotation2d(radians);
+  }
+
+  public double getDegrees() {
+    return navX.getYaw();
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Yaw", navX.getYaw());
+    SmartDashboard.putNumber("Roll", navX.getRoll());
+    SmartDashboard.putNumber("Pitch", navX.getPitch());
   }
 }
