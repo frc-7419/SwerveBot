@@ -5,11 +5,19 @@
 package frc.robot.subsystems.Drivebase;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class DrivebaseSubsystem extends SubsystemBase {
   /** Creates a new DrivebaseSubsystem. */
   
-  public DrivebaseSubsystem() {
+  SwerveModuleSubsystem frontLeft;
+  SwerveModuleSubsystem frontRight;
+  SwerveModuleSubsystem backLeft;
+  SwerveModuleSubsystem backRight;
+
+  public DrivebaseSubsystem()
+  {
+    frontLeft = new SwerveModuleSubsystem(Constants.SwerveModuleConstants.backLeftDrive, Constants.SwerveModuleConstants.backLeftRotate, 0);
 
   }
 

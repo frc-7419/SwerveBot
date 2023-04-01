@@ -16,4 +16,23 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static class SwerveModuleConstants {
+    public static final int frontLeftDrive = 0;
+    public static final int frontLeftRotate = 0;
+    public static final int frontLeftEncoder = 0;
+
+    public static final int frontRightDrive = 0;
+    public static final int frontRightRotate = 0;
+    public static final int frontRightEncoder = 0;
+
+    public static final int backLeftDrive = 0;
+    public static final int backLeftRotate = 0;
+    public static final int backLeftEncoder = 0;
+
+    public static final int backRightDrive = 0;
+    public static final int backRightRotate = 0;
+    public static final int backRightEncoder = 0;
+
+  }
 }

@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.Drivebase;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.XboxController;
 
 /*
@@ -13,14 +14,20 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Gyro.GyroSubsystem;
 
 public class RunSwerveWithJoystick extends CommandBase {
   /** Creates a new RunSwerveWithJoystick. */
   XboxController joystick;
   DrivebaseSubsystem drivebaseSubsystem;
-  
-  public RunSwerveWithJoystick() {
+  GyroSubsystem gyroSubsystem;
+
+  public RunSwerveWithJoystick(XboxController joystick, DrivebaseSubsystem drivebaseSubsystem, GyroSubsystem gyroSubsystem) {
+    this.joystick = joystick;
+    this.drivebaseSubsystem = drivebaseSubsystem;
+    this.gyroSubsystem = gyroSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(drivebaseSubsystem, gyroSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -29,7 +36,17 @@ public class RunSwerveWithJoystick extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    
+  }
+
+  public void joystickToChassisSpeeds(double x1, double y1, double x2) { //x1, y1 are the drive x2 is the angle
+
+  }
+
+  public void ChassisSpeedstoModules() {
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
