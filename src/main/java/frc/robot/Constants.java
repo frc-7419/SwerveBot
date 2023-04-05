@@ -17,22 +17,45 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static class RobotConstants {
+    public static final double LENGTH = 27*0.0254;
+    public static final double WIDTH = 27*0.0254;
+  }
+
+  public static class SwerveConstants {
+
+    /*
+    * IMPORTANT: THIS WAS FOUND THROUGH CAD FILES BUT THERE ARE MANY SWERVE X CONFIGURATIONS
+    * SO YOU NEED TO DOUBLE CHECK THIS IS CORRECT IN PRACTICE
+    */
+
+    /* ANGLE MOTOR
+    * NEO Shaft to 12T Pulley to 24T Pulley to 14T Gear to 72T Main Rotation Gear
+    */
+    public static double gearRatioAngleMotor = (double) 12.0/24.0*14.0/72.0;
+    
+    /* DRIVE MOTOR
+     * NEO shaft to 12T Pulley to 24T Pulley to 24T Gear to 22T Gear to 15T bevel to 45T Bevel
+     */
+    public static double gearRatioSpeedMotor = (double) 12.0/24.0* 24.0/22.0 * 15.0/45.0;
+
+    public static final double anglekP = 0.6;
+
+    public static final SwerveModuleConstants swerve0 = new SwerveModuleConstants(0, 0, 0);
+    public static final SwerveModuleConstants swerve1 = new SwerveModuleConstants(0, 0, 0);
+    public static final SwerveModuleConstants swerve2 = new SwerveModuleConstants(0, 0, 0);
+    public static final SwerveModuleConstants swerve3 = new SwerveModuleConstants(0, 0, 0);
+  }
+
   public static class SwerveModuleConstants {
-    public static final int frontLeftDrive = 0;
-    public static final int frontLeftRotate = 0;
-    public static final int frontLeftEncoder = 0;
+    public int speedMotorID;
+    public int rotateMotorID;
+    public int canCoderID;
 
-    public static final int frontRightDrive = 0;
-    public static final int frontRightRotate = 0;
-    public static final int frontRightEncoder = 0;
-
-    public static final int backLeftDrive = 0;
-    public static final int backLeftRotate = 0;
-    public static final int backLeftEncoder = 0;
-
-    public static final int backRightDrive = 0;
-    public static final int backRightRotate = 0;
-    public static final int backRightEncoder = 0;
-
+    public SwerveModuleConstants(int speedMotorID, int rotateMotorID, int canCoderID) {
+      this.speedMotorID = speedMotorID;
+      this.rotateMotorID = rotateMotorID;
+      this.canCoderID = canCoderID;
+    }
   }
 }
