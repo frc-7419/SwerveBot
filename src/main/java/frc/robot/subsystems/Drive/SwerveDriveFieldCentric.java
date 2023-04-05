@@ -4,9 +4,13 @@
 
 package frc.robot.subsystems.Drive;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.math.MathUtil;
@@ -19,9 +23,12 @@ import frc.robot.subsystems.Gyro.GyroSubsystem;
 
 public class SwerveDriveFieldCentric extends CommandBase {
   /** Creates a new RunSwerveWithJoystick. */
-  XboxController joystick;
-  DrivebaseSubsystem drivebaseSubsystem;
-  GyroSubsystem gyroSubsystem;
+  private XboxController joystick;
+  private DrivebaseSubsystem drivebaseSubsystem;
+  private GyroSubsystem gyroSubsystem;
+
+  private SwerveDriveOdometry m_odometry;
+  private Pose2d m_pose;
 
   public SwerveDriveFieldCentric(XboxController joystick, DrivebaseSubsystem drivebaseSubsystem, GyroSubsystem gyroSubsystem) {
     this.joystick = joystick;
@@ -40,12 +47,31 @@ public class SwerveDriveFieldCentric extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_odometry = new SwerveDriveOdometry(
+    drivebaseSubsystem.getSwerveDriveKinematics(), gyroSubsystem.getRotation2d(),
+    new SwerveModulePosition[] {
+      drivebaseSubsystem.getSwerveModule(0).getSwerveModulePosition(),
+      drivebaseSubsystem.getSwerveModule(1).getSwerveModulePosition(),
+      drivebaseSubsystem.getSwerveModule(2).getSwerveModulePosition(),
+      drivebaseSubsystem.getSwerveModule(3).getSwerveModulePosition()
+    }, new Pose2d(0, 0, new Rotation2d(0)));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     setSwerveModuleStates(ChassisSpeedstoModuleSpeeds(getChassisSpeedsFromJoystick())); 
+    
+  }
+
+  public void updatePose() {
+    m_pose = m_odometry.update(gyroSubsystem.getRotation2d(),
+    new SwerveModulePosition[] {
+      drivebaseSubsystem.getSwerveModule(0).getSwerveModulePosition(),
+      drivebaseSubsystem.getSwerveModule(1).getSwerveModulePosition(),
+      drivebaseSubsystem.getSwerveModule(2).getSwerveModulePosition(),
+      drivebaseSubsystem.getSwerveModule(3).getSwerveModulePosition()
+    });
   }
 
   public ChassisSpeeds getChassisSpeedsFromJoystick() {

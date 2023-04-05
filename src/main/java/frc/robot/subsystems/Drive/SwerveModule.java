@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.SwerveModuleConstants;
@@ -81,9 +82,21 @@ public class SwerveModule {
         return canCoder.getAbsolutePosition();
     }
 
+    public Rotation2d getRotation2d() {
+        return Rotation2d.fromDegrees(getAngle());
+    }
+
     //from what I've seen the CANCODER does not tell you anything about wheel rotation but rather speed
     public double getSpeed() {
         return Units.degreesToRotations(canCoder.getVelocity() * SwerveConstants.gearRatioCANCoder) * SwerveConstants.wheelDiameter;
+    }
+
+    public double getPosition() { //placeholder for now
+        return 0.0;
+    }
+
+    public SwerveModulePosition getSwerveModulePosition() {
+        return new SwerveModulePosition(getPosition(), getRotation2d());
     }
 
     /**

@@ -6,10 +6,12 @@ package frc.robot.subsystems.Drive;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.SwerveModuleConstants;
+import frc.robot.subsystems.Gyro.GyroSubsystem;
 import frc.robot.Constants.RobotConstants;
 
 public class DrivebaseSubsystem extends SubsystemBase {
@@ -18,7 +20,7 @@ public class DrivebaseSubsystem extends SubsystemBase {
   private final SwerveModule[] swerveModules;
 
   // Creating my kinematics object using the module locations from Constants
-  private SwerveDriveKinematics m_kinematics;
+  private final SwerveDriveKinematics m_kinematics;
 
   public DrivebaseSubsystem() {
 
