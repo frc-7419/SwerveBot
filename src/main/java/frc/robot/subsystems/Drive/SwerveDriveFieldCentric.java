@@ -1,0 +1,82 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
+package frc.robot.subsystems.Drive;
+
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.math.MathUtil;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.Constants.SwerveModuleConstants;
+import frc.robot.Constants.SwerveConstants;
+import frc.robot.subsystems.Gyro.GyroSubsystem;
+
+public class SwerveDriveFieldCentric extends CommandBase {
+  /** Creates a new RunSwerveWithJoystick. */
+  XboxController joystick;
+  DrivebaseSubsystem drivebaseSubsystem;
+  GyroSubsystem gyroSubsystem;
+
+  public SwerveDriveFieldCentric(XboxController joystick, DrivebaseSubsystem drivebaseSubsystem, GyroSubsystem gyroSubsystem) {
+    this.joystick = joystick;
+    this.drivebaseSubsystem = drivebaseSubsystem;
+    this.gyroSubsystem = gyroSubsystem;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(drivebaseSubsystem, gyroSubsystem);
+  }
+  
+  /*
+  * How will Swerve Work?
+  * Joysticks need to output a x/y speed and a rotation theta speed
+  * Always REMEMBER this is FIELD-ORIENTED DRIVE
+  */
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    setSwerveModuleStates(ChassisSpeedstoModuleSpeeds(getChassisSpeedsFromJoystick())); 
+  }
+
+  public ChassisSpeeds getChassisSpeedsFromJoystick() {
+    //Make sure there is no joystick drift, YOU CAN REMOVE Deadband if it's not necessary
+    double vx = MathUtil.applyDeadband(joystick.getLeftX(), 0.02)*SwerveConstants.maxSpeed;
+    double vy = MathUtil.applyDeadband(joystick.getLeftY(), 0.02)*SwerveConstants.maxSpeed;
+    double rx = MathUtil.applyDeadband(joystick.getRightX(), 0.02)*SwerveConstants.maxSpeed;
+    
+    //WPILIB does the Field-Relative Conversions for you, easy peasy
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, rx, gyroSubsystem.getRotation2d());
+    return speeds;
+  }
+
+  public SwerveModuleState[] ChassisSpeedstoModuleSpeeds(ChassisSpeeds chassisSpeeds) {
+    SwerveModuleState[] moduleStates = drivebaseSubsystem.getSwerveDriveKinematics().toSwerveModuleStates(chassisSpeeds);
+    return moduleStates;
+  }
+
+  public void setSwerveModuleStates(SwerveModuleState[] moduleStates) {
+    for (int i=0; i<4; ++i) {
+      drivebaseSubsystem.getSwerveModule(i).setSwerveModuleState(moduleStates[i].speedMetersPerSecond, moduleStates[i].angle);
+    }
+  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+}

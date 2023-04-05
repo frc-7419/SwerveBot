@@ -16,16 +16,19 @@ public class GyroSubsystem extends SubsystemBase {
 
   public GyroSubsystem() {
     navX = new AHRS(SPI.Port.kMXP);
-    navX.reset(); //reset for field-centric drive
+    navX.reset();
   }
 
-  public Rotation2d getRotation2d(double radians) {
-    return new Rotation2d(radians);
-  }
+  ///public wrappers for when using these methods from other files
+  public Rotation2d getRotation2d() { return navX.getRotation2d(); } //be careful degrees>360 stay that way!
 
-  public double getDegrees() {
-    return navX.getYaw();
-  }
+  public double getDegrees() { return navX.getAngle(); }
+
+  public double getYaw() { return navX.getYaw(); }
+
+  public double getPitch() { return navX.getPitch(); }
+
+  public double getRoll() { return navX.getRoll(); }
 
   @Override
   public void periodic() {
