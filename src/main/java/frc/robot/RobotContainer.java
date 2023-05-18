@@ -6,6 +6,8 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Drive.DrivebaseSubsystem;
+import frc.robot.subsystems.Drive.OneModuleBasicSubsystem;
+import frc.robot.subsystems.Drive.RunOneModule;
 import frc.robot.subsystems.Drive.SwerveDriveFieldCentric;
 import frc.robot.subsystems.Gyro.GyroSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
@@ -22,8 +24,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DrivebaseSubsystem drivebaseSubsystem = new DrivebaseSubsystem();
-  private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
+  // private final DrivebaseSubsystem drivebaseSubsystem = new DrivebaseSubsystem();
+  // private final GyroSubsystem gyroSubsystem = new GyroSubsystem();
 
   private SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
@@ -33,8 +35,10 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   private final XboxController joystick0 = new XboxController(0);
+  private final OneModuleBasicSubsystem oneModuleBasicSubsystem = new OneModuleBasicSubsystem();
+  private final RunOneModule runOneModule = new RunOneModule(oneModuleBasicSubsystem, joystick0);
 
-  private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(joystick0, drivebaseSubsystem, gyroSubsystem);
+  // private final SwerveDriveFieldCentric swerveDriveFieldCentric = new SwerveDriveFieldCentric(joystick0, drivebaseSubsystem, gyroSubsystem);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -73,6 +77,7 @@ public class RobotContainer {
   }
 
   public void setDefaultCommands() {
-    drivebaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
+    // drivebaseSubsystem.setDefaultCommand(swerveDriveFieldCentric);
+    oneModuleBasicSubsystem.setDefaultCommand(runOneModule);
   }
 }

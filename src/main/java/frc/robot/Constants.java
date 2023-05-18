@@ -62,7 +62,7 @@ public final class Constants {
     public static final double anglekP = 0.6;
 
     public static final SwerveModuleConstants swerve0 = new SwerveModuleConstants(
-      0, 0, 0, new Translation2d(RobotConstants.LENGTH, RobotConstants.LENGTH) );
+      6, 5, 0, new Translation2d(RobotConstants.LENGTH, RobotConstants.LENGTH) );
     public static final SwerveModuleConstants swerve1 = new SwerveModuleConstants(
       0, 0, 0, new Translation2d(RobotConstants.LENGTH, -RobotConstants.LENGTH));
     public static final SwerveModuleConstants swerve2 = new SwerveModuleConstants(
